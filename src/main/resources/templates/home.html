@@ -2,11 +2,12 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="#" />
+    <link rel="shortcut icon" th:href="@{/images/favicon.png}" />
     <title>Aplikacja Taco Cloud</title>
 </head>
 <body>
     <h1>Witaj w...</h1>
     <img th:src="@{/images/TacoCloud.png}">
+    <a th:href="@{/design}" id="design">Zaprojektuj swoje taco</a>
 </body>
 </html>

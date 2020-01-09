@@ -1,4 +1,4 @@
-package tacos.controller;
+package tacos.web;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
