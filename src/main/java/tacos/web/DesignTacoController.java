@@ -49,7 +49,7 @@ public class DesignTacoController {
     @PostMapping
     public String processDesign(@Valid @ModelAttribute("design") Taco design, Model model, Error error) {
         // zapisywanie projektu taco
-        log.info("Przetwarzanie projektu taco: " + design);
+        log.info("Przetwarzanie taco: " + design);
         return "redirect:/orders/current";
     }
 
