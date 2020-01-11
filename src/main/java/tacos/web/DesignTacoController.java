@@ -40,17 +40,14 @@ public class DesignTacoController {
 
     @GetMapping
     public String showDesignForm(Model model) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredientRepo.findAll().forEach(ingredients::add);
-
-        Arrays.stream(Type.values()).forEach(type -> model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type)));
-
+        fetchIngredientsAndPopulateModel(model);
         return "design";
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("taco") Taco taco, Errors errors) {
+    public String processDesign(Model model, @Valid @ModelAttribute("taco") Taco taco, Errors errors) {
         if (errors.hasErrors()) {
+            fetchIngredientsAndPopulateModel(model);
             return "design";
         }
 
@@ -64,6 +61,12 @@ public class DesignTacoController {
                 .stream()
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
+    }
+
+    private void fetchIngredientsAndPopulateModel(Model model) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepo.findAll().forEach(ingredients::add);
+        Arrays.stream(Type.values()).forEach(type -> model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type)));
     }
 
 }
