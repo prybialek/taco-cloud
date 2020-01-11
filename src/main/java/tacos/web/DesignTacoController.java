@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 import tacos.domain.Ingredient;
+import tacos.domain.Order;
 import tacos.domain.Taco;
 import tacos.domain.Type;
 
@@ -23,19 +26,26 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/design")
-//@SessionAttributes("order") poczytać ModelAttribute i SessionAttributes
+@SessionAttributes("order")
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepo;
+    private final TacoRepository tacoRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepo) {
+    public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository tacoRepository) {
         this.ingredientRepo = ingredientRepo;
+        this.tacoRepository = tacoRepository;
     }
 
     @ModelAttribute(name = "taco")
     public Taco taco() {
         return new Taco();
+    }
+
+    @ModelAttribute( name = "order")
+    public Order order() {
+        return new Order();
     }
 
     @GetMapping
@@ -45,14 +55,15 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(Model model, @Valid @ModelAttribute("taco") Taco taco, Errors errors) {
+    public String processDesign(Model model, @ModelAttribute Order order, @Valid @ModelAttribute("taco") Taco taco, Errors errors) {
         if (errors.hasErrors()) {
             fetchIngredientsAndPopulateModel(model);
             return "design";
         }
 
-        // zapisywanie projektu taco
-        log.info("Przetwarzanie taco: " + taco);
+        Taco saved = tacoRepository.save(taco);
+        order.addTaco(saved);
+
         return "redirect:/orders/current";
     }
 

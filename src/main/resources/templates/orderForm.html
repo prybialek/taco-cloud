@@ -17,8 +17,8 @@
 
     <h3>Adres doręcznia taco...</h3>
     <label for="name">Imię i nazwisko:</label>
-    <input type="text" th:field="*{name}"/>
-    <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Błąd imienia i nazwiska.</span><br/><br/>
+    <input type="text" th:field="*{nameAndSurname}"/>
+    <span class="validationError" th:if="${#fields.hasErrors('nameAndSurname')}" th:errors="*{nameAndSurname}">Błąd imienia i nazwiska.</span><br/><br/>
 
     <label for="street">Ulica:</label>
     <input type="text" th:field="*{street}"/>
