@@ -1,7 +1,8 @@
 package tacos.data;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import tacos.domain.Taco;
 
-public interface TacoRepository {
-    Taco save(Taco taco);
+public interface TacoRepository extends JpaRepository<Taco, Long> {
+
 }
